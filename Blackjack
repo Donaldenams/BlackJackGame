@@ -1,0 +1,59 @@
+import random
+def deal_card():
+  """Returns a Random Card from the Deck"""
+  cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+  return random.choice(cards)
+def calculate_score(card_sum): 
+  """Take a list of cards and return the score calculated from the cards"""
+  if sum(card_sum) == 21 and len(card_sum) == 2:
+    return 0
+  if 11 in card_sum and sum(card_sum) > 21:
+    card_sum.remove(11)
+    card_sum.append(1)
+  return sum(card_sum)
+
+user_cards = []
+computer_cards = []
+game_start = True
+def compare(user_score, computer_score):
+  if user_score == computer_score:
+    return 'Draw!'
+  elif computer_score == 0:
+    return 'You Lose, opponent has a Black Jack!'
+  elif user_score == 0:
+    return 'You win with a Black jack'
+  elif user_score > 21:
+    return 'You Lose, you went over'
+  elif computer_score > 21:
+    return 'You Win opponent went over'
+  elif user_score > computer_score:
+    return 'You win'
+  else:
+    return 'You Lose'
+for x in range(2):
+  user_cards.append(deal_card())
+  computer_cards.append(deal_card())
+ print(computer_cards[0])
+print(user_cards)
+
+while game_start:
+  computer_score = calculate_score(computer_cards)
+  user_score = calculate_score(user_cards)
+  print(f'Your cards: {user_cards}, your score {user_score}')
+  print(f'Computer first hand {computer_cards[0]}')
+  if computer_score == 0 or user_score == 0 or user_score > 21:
+    game_start = False#Conditions to end the game
+  else:#Conditions to continue the game
+    another = input('Do you want another card. Y or N\n').lower()
+    if another == 'y':
+      user_cards.append(deal_card())
+      print (user_cards)
+    else:
+      game_start = False
+  
+while computer_score != 0 and computer_score < 17:
+  computer_cards.append(deal_card())
+  computer_score = calculate_score(computer_cards)
+print(f'your cards are:{user_cards} your final score is {user_score}')
+print(f'opponent cards are:{computer_cards} opponent final score is {computer_score}')
+print(compare(user_score, computer_score))
